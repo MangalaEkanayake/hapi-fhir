@@ -466,18 +466,14 @@ public class VersionSpecificWorkerContextWrapper extends I18nBase implements IWo
 			return null;
 		}
 
-		String uri = theUri;
-		// handle profile version, if present
 		if (theUri.contains("|")) {
 			String[] parts = theUri.split("\\|");
-			if (parts.length == 2) {
-				uri = parts[0];
-			} else {
+			if (parts.length != 2) {
 				ourLog.warn("Unrecognized profile uri: {}", theUri);
 			}
 		}
 
-		ResourceKey key = new ResourceKey(class_.getSimpleName(), uri);
+		ResourceKey key = new ResourceKey(class_.getSimpleName(), theUri);
 		@SuppressWarnings("unchecked")
 		T retVal = (T) myFetchResourceCache.get(key);
 
