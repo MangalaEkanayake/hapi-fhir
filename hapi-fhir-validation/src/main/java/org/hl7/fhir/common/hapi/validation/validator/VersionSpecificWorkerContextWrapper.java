@@ -12,6 +12,7 @@ import ca.uhn.fhir.system.HapiSystemProperties;
 import ca.uhn.hapi.converters.canonical.VersionCanonicalizer;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -466,11 +467,8 @@ public class VersionSpecificWorkerContextWrapper extends I18nBase implements IWo
 			return null;
 		}
 
-		if (theUri.contains("|")) {
-			String[] parts = theUri.split("\\|");
-			if (parts.length != 2) {
-				ourLog.warn("Unrecognized profile uri: {}", theUri);
-			}
+		if (StringUtils.countMatches(theUri, "|") > 1) {
+			ourLog.warn("Unrecognized profile uri: {}", theUri);
 		}
 
 		ResourceKey key = new ResourceKey(class_.getSimpleName(), theUri);
